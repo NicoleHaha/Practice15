@@ -4,18 +4,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "employee")
+
 public class Employee implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "age")
-    private Integer age;
+    private int age;
 
     @Column(name = "gender")
     private String gender;
@@ -29,7 +29,7 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-    public Employee( String name, Integer age, String gender,int salary,int companyId,long id) {
+    public Employee( String name, int age, String gender,int salary,int companyId,int id) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -42,7 +42,7 @@ public class Employee implements Serializable {
         return id;
     }
 
-    public Employee setId(long id) {
+    public Employee setId(int id) {
         this.id = id;
         return this;
     }
@@ -56,11 +56,11 @@ public class Employee implements Serializable {
         return this;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public Employee setAge(Integer age) {
+    public Employee setAge(int age) {
         this.age = age;
         return this;
     }

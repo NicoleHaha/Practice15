@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 
 @Repository
-@Transactional
+
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     //以下所有的*都代表变量
 
@@ -26,15 +26,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     //4.实现对Employee的分页查询，每页两个数据
     Page<Employee> findAll(Pageable pageable);
     //5.查找**的所在的公司的公司名称
-    @Query(value = "select Company.companyName from Employee left join Company on Employee.companyId = Company.id where Employee.name = ?1",nativeQuery = true)
-    String findCompanyName(String name);
-
+//    @Query(value = "select Company.companyName from Employee left join Company on Employee.companyId = Company.id where Employee.name = ?1",nativeQuery = true)
+//    String findCompanyName(String name);
+    public Employee findByName(String name);
     //6.将*的名字改成*,输出这次修改影响的行数
+    @Transactional
     @Modifying
     @Query("update Employee e set e.name = ?1 where e.name = ?2")
     int updateEmployee(String newname,String name);
     //7.删除姓名是*的employee
     @Modifying
+    @Transactional
     @Query("delete from Employee where name = ?1")
     void deleteEmployee(String name);
 }

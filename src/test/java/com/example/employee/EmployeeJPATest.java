@@ -1,6 +1,7 @@
 package com.example.employee;
 
 import com.example.employee.entity.Employee;
+import com.example.employee.repository.CompanyRepository;
 import com.example.employee.repository.EmployeeRepository;
 import org.flywaydb.core.Flyway;
 import org.junit.Before;
@@ -22,12 +23,14 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 public class EmployeeJPATest {
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Before
     public void setUp() throws Exception {
         //本地启动mysql，创建employee_db数据库
         Flyway flyway = new Flyway();
-        flyway.setDataSource("jdbc:mysql://localhost:3306/employee_db?useUnicode=true&characterEncoding=utf-8&useSSL=false","root","root");
+        flyway.setDataSource("jdbc:mysql://localhost:3306/employee_db?useSSL=false","root","root");
         flyway.clean();
         flyway.migrate();
     }
@@ -68,8 +71,9 @@ public class EmployeeJPATest {
     @Test
     public void should_return_company_name_when_input_employee_name() throws Exception {
         //5.查找xiaohong的所在的公司的公司名称
+        int companyId=employeeRepository.findByName("xiaohong").getCompanyId();
         String expectedCompanyName = "alibaba";
-        String actualCompanyName = employeeRepository.findCompanyName("xiaohong");
+        String actualCompanyName = companyRepository.findById(companyId).getCompanyName();
         assertThat(actualCompanyName).isEqualTo(expectedCompanyName);
     }
 
